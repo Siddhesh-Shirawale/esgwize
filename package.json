@@ -6,9 +6,17 @@
     "start": "next start"
   },
   "dependencies": {
+    "@draft-js-plugins/editor": "^4.1.4",
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
+    "@mui/icons-material": "^5.14.15",
+    "@mui/material": "^5.14.15",
+    "axios": "^1.5.1",
+    "draft-js": "^0.11.7",
     "next": "latest",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "socket.io-client": "^4.7.2"
   },
   "engines": {
     "node": ">=18"
