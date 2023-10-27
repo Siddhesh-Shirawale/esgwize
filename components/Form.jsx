@@ -94,6 +94,7 @@ const Form = () => {
     setUploadLoader(true);
     const formData = new FormData();
     formData.append("file", selectedFile);
+    formData.append("collection_name", "support");
 
     try {
       const response = await axios.post(
