@@ -42,7 +42,7 @@ const Form = () => {
               content:
                 "You are genie please give answers. Please look into context and response should be in less than 10 words",
             },
-            { role: "user", content: `From my document ` + query },
+            { role: "user", content: query },
           ],
           model: "gpt-3.5-turbo-16k",
           collection_name: "support",
@@ -65,8 +65,7 @@ const Form = () => {
         setLoader(false);
 
         console.log(response);
-        setOutput(response?.["choices"][0]?.["message"]?.["content"]);
-        console.log(response?.["choices"][0]?.["message"]?.["content"]);
+        setOutput(response);
       }
     } catch (error) {
       setSearchErr(error.message);
