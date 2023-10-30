@@ -65,7 +65,7 @@ const Form = () => {
         setLoader(false);
 
         console.log(response);
-        setOutput(response);
+        setOutput(response?.["data"]);
       }
     } catch (error) {
       setSearchErr(error.message);
