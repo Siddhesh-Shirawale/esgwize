@@ -50,7 +50,7 @@ const Form = () => {
         },
       };
       const response = await axios.post(
-        "https://34.250.158.242:8888/query_chatcompletion",
+        "https://api.esgwizedemo.com/query_chatcompletion",
         reqBody,
         {
           headers: {
@@ -98,7 +98,7 @@ const Form = () => {
 
     try {
       const response = await axios.post(
-        "https://34.250.158.242:8888/upsert-file",
+        "https://api.esgwizedemo.com/upsert-file",
         formData,
 
         {
