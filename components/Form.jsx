@@ -14,6 +14,7 @@ const Form = () => {
   const [uploadErr, setUploadErr] = useState("");
   const [uploadSuccess, setUploadSuccess] = useState(false);
   const [collectionName, setCollectionName] = useState("");
+  const [queryCollectionName, setQueryCollectionName] = useState("");
   const [loader, setLoader] = useState(false);
   const [uploadLoader, setUploadLoader] = useState(false);
   const [uploader, setUploader] = useState(false);
@@ -45,7 +46,7 @@ const Form = () => {
             { role: "user", content: query },
           ],
           model: "gpt-3.5-turbo-16k",
-          collection_name: "support",
+          collection_name: queryCollectionName,
           mapping: 0,
         },
       };
@@ -93,7 +94,7 @@ const Form = () => {
     setUploadLoader(true);
     const formData = new FormData();
     formData.append("file", selectedFile);
-    formData.append("collection_name", "support");
+    formData.append("collection_name", collectionName);
 
     try {
       const response = await axios.post(
@@ -214,32 +215,44 @@ const Form = () => {
           flexDirection: "column",
         }}
       >
-        <div style={{ display: "flex" }}>
-          <TextField
-            id="outlined-basic"
-            label="Search"
-            variant="outlined"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            style={{ marginRight: "10px", width: "80%" }}
-          />
-          {/* <TextareaAutosize
+        <div style={{ display: "flex", flexDirection: "column" }}>
+          <div>
+            <TextField
+              id="outlined-basic"
+              label="Collection name"
+              variant="outlined"
+              value={queryCollectionName}
+              onChange={(e) => setQueryCollectionName(e.target.value)}
+              style={{ marginBottom: "10px", width: "100%" }}
+            />
+          </div>
+          <div style={{ display: "flex" }}>
+            <TextField
+              id="outlined-basic"
+              label="Search"
+              variant="outlined"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              style={{ marginRight: "10px", width: "80%" }}
+            />
+            {/* <TextareaAutosize
             aria-label="minimum height"
             minRows={3}
             placeholder="Minimum 3 rows"
           /> */}
-          <Button
-            onClick={handleSearch}
-            variant="contained"
-            // style={{
-            //   color: "white",
-            //   backgroundColor: "#1688d0",
-            //   borderRadius: "4px",
-            //   padding: "5px",
-            // }}
-          >
-            {!loader ? "Search" : <CircularProgress color="info" />}
-          </Button>
+            <Button
+              onClick={handleSearch}
+              variant="contained"
+              // style={{
+              //   color: "white",
+              //   backgroundColor: "#1688d0",
+              //   borderRadius: "4px",
+              //   padding: "5px",
+              // }}
+            >
+              {!loader ? "Search" : <CircularProgress color="info" />}
+            </Button>
+          </div>
         </div>
 
         <div style={{ padding: "20px" }}>
