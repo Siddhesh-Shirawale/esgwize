@@ -39,7 +39,9 @@ const Form = () => {
         id: new Date().valueOf(),
       };
 
-      setOutput([...output, messageBody]);
+      const newArr = [...output, messageBody];
+
+      setOutput((prev) => [...prev, messageBody]);
       const reqBody = {
         data: {
           messages: [
@@ -71,15 +73,15 @@ const Form = () => {
         setLoader(false);
 
         // console.log(response);
-        setOutput([
-          ...output,
-          ...messageBody,
+        setOutput((prev) => [
+          ...prev,
           {
             role: "assistant",
             content: response?.["data"],
             id: new Date().valueOf(),
           },
         ]);
+
         scrollToBottom();
       }
     } catch (error) {
@@ -272,22 +274,12 @@ const Form = () => {
               variant="outlined"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              style={{ marginRight: "10px", width: "80%" }}
+              style={{ marginRight: "10px", width: "90%" }}
             />
-            {/* <TextareaAutosize
-            aria-label="minimum height"
-            minRows={3}
-            placeholder="Minimum 3 rows"
-          /> */}
             <Button
               onClick={handleSearch}
               variant="contained"
-              // style={{
-              //   color: "white",
-              //   backgroundColor: "#1688d0",
-              //   borderRadius: "4px",
-              //   padding: "5px",
-              // }}
+              style={{ width: "100px" }}
             >
               {!loader ? "Search" : <CircularProgress color="info" />}
             </Button>
