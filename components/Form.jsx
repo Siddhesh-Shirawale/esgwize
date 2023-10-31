@@ -41,7 +41,7 @@ const Form = () => {
             {
               role: "system",
               content:
-                "You are genie please give answers. Please look into context and response should be in less than 10 words",
+                "You are genie please give answers. Please look into context and provide appropriate response",
             },
             { role: "user", content: query },
           ],
