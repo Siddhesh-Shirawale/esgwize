@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useRef } from "react";
+import React, { Fragment, useState, useRef, useEffect } from "react";
 import axios from "axios";
 import { Alert, Button, Divider, TextField } from "@mui/material";
 import { styled } from "@mui/material/styles";
@@ -80,7 +80,7 @@ const Form = () => {
           },
         ]);
 
-        scrollToBottom();
+        // scrollToBottom();
       }
     } catch (error) {
       setSearchErr(error.message);
@@ -141,6 +141,10 @@ const Form = () => {
   const clearAllMessages = () => {
     setOutput([]);
   };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [output]);
   return (
     <div
       style={{
