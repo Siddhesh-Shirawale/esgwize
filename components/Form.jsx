@@ -16,6 +16,7 @@ const Form = () => {
   const [uploadSuccess, setUploadSuccess] = useState(false);
   const [successMsg, setSuccessMsg] = useState(false);
   const [collectionName, setCollectionName] = useState("");
+  const [collectionId, setCollectionId] = useState("");
   const [queryCollectionName, setQueryCollectionName] = useState("");
   const [loader, setLoader] = useState(false);
   const [uploadLoader, setUploadLoader] = useState(false);
@@ -118,8 +119,7 @@ const Form = () => {
     formData.append("file", selectedFile);
 
     const collectionNameId = collectionName + new Date().valueOf();
-    console.log(collectionNameId);
-    setQueryCollectionName(collectionNameId);
+
     formData.append("collection_name", collectionNameId);
 
     try {
@@ -142,6 +142,8 @@ const Form = () => {
         setSuccessMsg(
           `New collection created with collection id - ${collectionNameId}`
         );
+        setQueryCollectionName(collectionNameId);
+        setCollectionId(collectionNameId);
         setUploadSuccess(true);
         setTimeout(() => {
           setUploadSuccess(false);
@@ -240,6 +242,13 @@ const Form = () => {
       </div>
       <h3 style={{ textAlign: "center" }}>Search functionality</h3>
       {searchErr !== "" ? <Alert severity="error">{searchErr}</Alert> : ""}
+      {collectionId ? (
+        <div>
+          <h3>Last updated collection : {collectionId}</h3>
+        </div>
+      ) : (
+        ""
+      )}
       <div
         style={{
           border: "1px solid black",
