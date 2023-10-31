@@ -70,9 +70,10 @@ const Form = () => {
       if (response) {
         setLoader(false);
 
-        console.log(response);
+        // console.log(response);
         setOutput([
           ...output,
+          ...messageBody,
           {
             role: "assistant",
             content: response?.["data"],
