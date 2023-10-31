@@ -39,8 +39,6 @@ const Form = () => {
         id: new Date().valueOf(),
       };
 
-      const newArr = [...output, messageBody];
-
       setOutput((prev) => [...prev, messageBody]);
       const reqBody = {
         data: {
@@ -258,7 +256,7 @@ const Form = () => {
 
           <div
             ref={chatContainerRef}
-            style={{ height: "400px", width: "100%" }}
+            style={{ height: "400px", width: "100%", overflowY: "auto" }}
           >
             {output?.map((data) => (
               <Fragment key={data?.["id"]}>
