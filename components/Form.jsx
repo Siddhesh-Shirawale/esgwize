@@ -94,6 +94,13 @@ const Form = () => {
     setSelectedFile(e.target.files[0]);
   };
 
+  const handleKeyPress = (event) => {
+    if (event.key === "Enter") {
+      // Call your search function here, e.g., search(searchTerm);
+      handleSearch();
+    }
+  };
+
   // console.log(selectedFile);
 
   const handleUpload = async () => {
@@ -125,7 +132,7 @@ const Form = () => {
       );
 
       if (response) {
-        console.log(response);
+        // console.log(response);
         setUploadLoader(false);
         setUploadSuccess(true);
         setTimeout(() => {
@@ -276,6 +283,7 @@ const Form = () => {
               variant="outlined"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
+              onKeyDown={handleKeyPress}
               style={{ marginRight: "10px", width: "90%" }}
             />
             <Button
