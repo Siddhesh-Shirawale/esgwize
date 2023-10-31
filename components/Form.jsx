@@ -71,6 +71,7 @@ const Form = () => {
 
       if (response) {
         setLoader(false);
+        setQuery("");
 
         // console.log(response);
         setOutput((prev) => [
@@ -145,6 +146,7 @@ const Form = () => {
         setQueryCollectionName(collectionNameId);
         setCollectionId(collectionNameId);
         setUploadSuccess(true);
+        setCollectionName("");
         setTimeout(() => {
           setUploadSuccess(false);
         }, 5000);
