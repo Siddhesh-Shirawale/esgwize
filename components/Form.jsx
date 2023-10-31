@@ -14,6 +14,7 @@ const Form = () => {
   const [searchErr, setSearchErr] = useState("");
   const [uploadErr, setUploadErr] = useState("");
   const [uploadSuccess, setUploadSuccess] = useState(false);
+  const [successMsg, setSuccessMsg] = useState(false);
   const [collectionName, setCollectionName] = useState("");
   const [queryCollectionName, setQueryCollectionName] = useState("");
   const [loader, setLoader] = useState(false);
@@ -115,7 +116,11 @@ const Form = () => {
     setUploadLoader(true);
     const formData = new FormData();
     formData.append("file", selectedFile);
-    formData.append("collection_name", collectionName);
+
+    const collectionNameId = collectionName + new Date().valueOf();
+    console.log(collectionNameId);
+    setQueryCollectionName(collectionNameId);
+    formData.append("collection_name", collectionNameId);
 
     try {
       const response = await axios.post(
@@ -134,6 +139,9 @@ const Form = () => {
       if (response) {
         // console.log(response);
         setUploadLoader(false);
+        setSuccessMsg(
+          `New collection created with collection id - ${collectionNameId}`
+        );
         setUploadSuccess(true);
         setTimeout(() => {
           setUploadSuccess(false);
@@ -173,11 +181,7 @@ const Form = () => {
         }}
       >
         {uploadErr !== "" ? <Alert severity="error">{uploadErr}</Alert> : ""}
-        {uploadSuccess ? (
-          <Alert severity="success">Document uploaded !</Alert>
-        ) : (
-          ""
-        )}
+        {uploadSuccess ? <Alert severity="success">{successMsg}</Alert> : ""}
         {!uploader ? (
           <div style={{ display: "flex", justifyContent: "center" }}>
             <Button
