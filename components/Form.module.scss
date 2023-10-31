@@ -1,0 +1,23 @@
+.msgreceived {
+  padding: 10px;
+  border-radius: 15px;
+  margin: 5px 0;
+  max-width: 70%;
+  background-color: #dcf8c6;
+  align-self: flex-end;
+}
+
+.msgsent {
+  display: flex;
+  // flex-direction: row-reverse;
+  padding: 10px;
+  border-radius: 15px;
+  margin: 5px 0;
+  max-width: 70%;
+  background-color: #dcf8c6;
+  align-self: flex-start;
+  background-color: #25d366;
+  color: #fff;
+  // align-self: flex-start !important;
+  // justify-content: flex-end;
+}

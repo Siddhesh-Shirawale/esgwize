@@ -1,15 +1,16 @@
-import React, { useState } from "react";
+import React, { Fragment, useState, useRef } from "react";
 import axios from "axios";
-import { Alert, Button, TextField } from "@mui/material";
+import { Alert, Button, Divider, TextField } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import CircularProgress from "@mui/material/CircularProgress";
 import { TextareaAutosize } from "@mui/base/TextareaAutosize";
-
+import "./Form.module.scss";
 import UploadIcon from "@mui/icons-material/Upload";
+import MessageComponent from "./MessageComponent";
 
 const Form = () => {
   const [query, setQuery] = useState("");
-  const [output, setOutput] = useState("");
+  const [output, setOutput] = useState([]);
   const [searchErr, setSearchErr] = useState("");
   const [uploadErr, setUploadErr] = useState("");
   const [uploadSuccess, setUploadSuccess] = useState(false);
@@ -20,21 +21,25 @@ const Form = () => {
   const [uploader, setUploader] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
 
-  const VisuallyHiddenInput = styled("input")({
-    clip: "rect(0 0 0 0)",
-    clipPath: "inset(50%)",
-    height: 1,
-    overflow: "hidden",
-    position: "absolute",
-    bottom: 0,
-    left: 0,
-    whiteSpace: "nowrap",
-    width: 1,
-  });
+  const chatContainerRef = useRef(null);
+  const scrollToBottom = () => {
+    if (chatContainerRef.current) {
+      chatContainerRef.current.scrollTop =
+        chatContainerRef.current.scrollHeight;
+    }
+  };
 
   const handleSearch = async () => {
     try {
       setLoader(true);
+
+      const messageBody = {
+        role: "user",
+        content: query,
+        id: new Date().valueOf(),
+      };
+
+      setOutput([...output, messageBody]);
       const reqBody = {
         data: {
           messages: [
@@ -66,7 +71,15 @@ const Form = () => {
         setLoader(false);
 
         console.log(response);
-        setOutput(response?.["data"]);
+        setOutput([
+          ...output,
+          {
+            role: "assistant",
+            content: response?.["data"],
+            id: new Date().valueOf(),
+          },
+        ]);
+        scrollToBottom();
       }
     } catch (error) {
       setSearchErr(error.message);
@@ -123,12 +136,18 @@ const Form = () => {
       console.log(error);
     }
   };
+
+  const clearAllMessages = () => {
+    setOutput([]);
+  };
   return (
     <div
       style={{
         display: "flex",
         justifyContent: "center",
         flexDirection: "column",
+        alignItems: "center",
+        width: "100%",
       }}
     >
       <h3 style={{ textAlign: "center" }}>Upload/Upsert document</h3>
@@ -213,19 +232,38 @@ const Form = () => {
           marginBottom: "50px",
           display: "flex",
           flexDirection: "column",
+          width: "90%",
         }}
       >
-        <div style={{ display: "flex", flexDirection: "column" }}>
-          <div>
+        <div
+          style={{ display: "flex", flexDirection: "column", width: "100%" }}
+        >
+          <div style={{ display: "flex", justifyContent: "space-between" }}>
             <TextField
               id="outlined-basic"
               label="Collection name"
               variant="outlined"
               value={queryCollectionName}
               onChange={(e) => setQueryCollectionName(e.target.value)}
-              style={{ marginBottom: "10px", width: "100%" }}
+              style={{ width: "50%" }}
             />
+            <Button size="small" variant="contained" onClick={clearAllMessages}>
+              Clear
+            </Button>
           </div>
+          <Divider />
+
+          <div
+            ref={chatContainerRef}
+            style={{ height: "400px", width: "100%" }}
+          >
+            {output?.map((data) => (
+              <Fragment key={data?.["id"]}>
+                <MessageComponent message={data} />
+              </Fragment>
+            ))}
+          </div>
+
           <div style={{ display: "flex" }}>
             <TextField
               id="outlined-basic"
@@ -253,10 +291,6 @@ const Form = () => {
               {!loader ? "Search" : <CircularProgress color="info" />}
             </Button>
           </div>
-        </div>
-
-        <div style={{ padding: "20px" }}>
-          {output ? output : "Output will be visible here."}
         </div>
       </div>
     </div>
