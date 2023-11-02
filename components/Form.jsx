@@ -124,6 +124,7 @@ const Form = () => {
     formData.append("collection_name", collectionNameId);
 
     try {
+      axios.defaults.timeout = 300000;
       const response = await axios.post(
         "https://api.esgwizedemo.com/upsert-file",
         formData,
